@@ -86,7 +86,7 @@ if __name__ == "__main__":
     dispatcher.add_handler(
         MessageHandler(
             (Filters.audio | Filters.text),
-        file_handler
+        preview
         )
     )
 
