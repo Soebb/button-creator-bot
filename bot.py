@@ -21,16 +21,7 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 def start(update: Update, context: CallbackContext):
     ''' Replies to start command '''
-    update.message.reply_text('Hi! I am alive. Click /help')
-
-
-def main_menu(update: Update, context: CallbackContext):
-    ''' Entry point of conversation  this gives  buttons to user'''
-
-    update.message.reply_text('''\n
-    First add a button using /add,
-    then send any message to me, i will add the button to that.
-    ''',)
+    update.message.reply_text('Hi, i am button creator bot! \nFirst add a button using /add, then send any message to me, i will add the button to that.')
 
 
 def add_button(update: Update, context: CallbackContext):
@@ -54,7 +45,6 @@ def add_button(update: Update, context: CallbackContext):
         user_d['buttons'] = []
     user_d['buttons'].append([IKB(text, url=url)])
     update.message.reply_text('Done')
-    main_menu(update,context)
 
 
 def preview(update: Update, context: CallbackContext):
@@ -70,7 +60,6 @@ def preview(update: Update, context: CallbackContext):
                     'B', reply_markup=InlineKeyboardMarkup(buttons))
             else:
                 update.message.reply_text('No buttons added yet')
-            main_menu(update,context)
         if update.message['audio'] == []:
             fileID = update.message['audio']['file_id']
             fileName = update.message['audio']['file_name']
@@ -83,14 +72,6 @@ def preview(update: Update, context: CallbackContext):
             )
         else:
             update.message.reply_text('No buttons added yet')
-        main_menu(update,context)
-
-
-def clear_data(update: Update, context: CallbackContext):
-    user_d = context.user_data
-    user_d.clear()
-    update.message.reply_text('Cleared user data')
-    main_menu(update,context)
 
 
 if __name__ == "__main__":
@@ -102,21 +83,16 @@ if __name__ == "__main__":
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                         level=logging.INFO)
 
-    _handlers = {}
+    dispatcher.add_handler(
+        MessageHandler(
+            (Filters.audio | Filters.text),
+        file_handler
+        )
+    )
 
-    _handlers['start_handler'] = CommandHandler('start', start)
+    dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(CommandHandler('add', add_button))
 
-    _handlers['post_hanlder'] = CommandHandler('post', main_menu)
-
-    _handlers['add_button_handler'] = CommandHandler('add', add_button)
-    _handlers['preview_handler'] = MessageHandler(Filters.audio, preview)
-    _handlers['cancel_handler'] = CommandHandler('cancel', cancel)
-    _handlers['send_handler'] = CommandHandler('send', send)
-
-    for name, _handler in _handlers.items():
-        print(f'Adding handler {name}')
-        dispatcher.add_handler(_handler)
-        
     updater.start_polling()
 
     updater.idle()
