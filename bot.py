@@ -17,7 +17,6 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 
-logger = logging.getLogger(__name__)
 
 
 def start(update: Update, context: CallbackContext):
@@ -73,12 +72,21 @@ def preview(update: Update, context: CallbackContext):
         else:
             update.message.reply_text('No buttons added yet')
 
+if __name__ == "__main__":
 
-token = os.environ.get('BOT_TOKEN')
-updater = Updater(token, use_context=True)
-dp = updater.dispatcher
-dp.add_handler(MessageHandler((Filters.audio | Filters.text), preview))
-dp.add_handler(CommandHandler("start", start))
-dp.add_handler(CommandHandler("add", add_button))
-updater.start_polling()
-updater.idle()
+    token = os.environ.get('BOT_TOKEN')
+    updater = Updater(token, use_context=True)
+    dispatcher = updater.dispatcher
+    _handlers = {}
+
+    _handlers['start_handler'] = CommandHandler('start', start)
+    _handlers['add_button_handler'] = CommandHandler('add', add_button)
+    _handlers['preview_handler'] =  MessageHandler(Filters.audio | Filters.text, preview)
+  
+    for name, _handler in _handlers.items():
+        print(f'Adding handler {name}')
+        dispatcher.add_handler(_handler)
+
+    updater.start_polling()
+
+    updater.idle()
