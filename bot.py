@@ -85,3 +85,5 @@ if __name__ == "__main__":
     dispatcher.add_handler(CommandHandler('add', add_button))
 
     updater.start_polling()
+
+    updater.idle()
