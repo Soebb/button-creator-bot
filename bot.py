@@ -60,6 +60,11 @@ def add_button(update: Update, context: CallbackContext):
 
 
 def preview(update: Update, context: CallbackContext):
+    if update.effective_message.text:
+        if not "/start" and not "/cancel" and not "/send" and not "/add" in update.effective_message['text']:
+               
+
+
     if update.message['photo'] == [] or update.message['video'] == [] or update.message['audio'] == [] or update.message['document'] == []:
         caption = update.message['caption']
         captionn = "'" + caption + "'"
@@ -103,7 +108,7 @@ if __name__ == "__main__":
     _handlers['post_hanlder'] = CommandHandler('post', main_menu)
 
     _handlers['add_button_handler'] = CommandHandler('add', add_button)
-    _handlers['preview_handler'] = MessageHandler(Filters.media, preview)
+    _handlers['preview_handler'] = MessageHandler(Filters.media | Filters.text), preview))
     _handlers['cancel_handler'] = CommandHandler('cancel', cancel)
     _handlers['send_handler'] = CommandHandler('send', send)
 
