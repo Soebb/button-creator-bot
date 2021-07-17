@@ -21,17 +21,15 @@ BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 def start(update: Update, context: CallbackContext):
     ''' Replies to start command '''
-    update.message.reply_text('Hi! I am alive. Click /post to create a post')
+    update.message.reply_text('Hi! I am alive. Click /help')
 
 
 def main_menu(update: Update, context: CallbackContext):
     ''' Entry point of conversation  this gives  buttons to user'''
 
-    update.message.reply_text('''Choose your option:\n
-    /add : to add a button
-    /preview : to preview current post
-    /send : to send current post
-    /cancel : to delete current post
+    update.message.reply_text('''\n
+    First add a button using /add,
+    then send any message to me, i will add the button to that.
     ''',)
 
 
@@ -65,17 +63,17 @@ def preview(update: Update, context: CallbackContext):
     chat_id = update.message['chat_id']
     user_d = context.user_data
     buttons = user_d.get('buttons')
-    if update.effective_message.text:
-        if buttons and not "/start" and not "/cancel" and not "/send" and not "/add" in update.effective_message['text']:
-            update.message.reply_text(
-                captionn, reply_markup=InlineKeyboardMarkup(buttons))
-        else:
-            update.message.reply_text('No buttons added yet')
-        main_menu(update,context)
-    if update.message['audio'] == []:
-        fileID = update.message['audio']['file_id']
-        fileName = update.message['audio']['file_name']
-        if buttons:
+    if buttons:
+        if update.effective_message.text:
+            if not "start" and not "add" in update.message['text']:
+                update.message.reply_text(
+                    'B', reply_markup=InlineKeyboardMarkup(buttons))
+            else:
+                update.message.reply_text('No buttons added yet')
+            main_menu(update,context)
+        if update.message['audio'] == []:
+            fileID = update.message['audio']['file_id']
+            fileName = update.message['audio']['file_name']
             context.bot.sendAudio(
                 chat_id = chat_id,
                 filename = fileName,
@@ -87,15 +85,8 @@ def preview(update: Update, context: CallbackContext):
             update.message.reply_text('No buttons added yet')
         main_menu(update,context)
 
-def send(update: Update, context: CallbackContext):
-    update.message.reply_text('Sent message')
-    #  send the message
 
-    user_d = context.user_data
-    user_d.clear()
-
-
-def cancel(update: Update, context: CallbackContext):
+def clear_data(update: Update, context: CallbackContext):
     user_d = context.user_data
     user_d.clear()
     update.message.reply_text('Cleared user data')
