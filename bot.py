@@ -1,4 +1,3 @@
-import logging
 from dotenv import load_dotenv
 from telegram.ext.filters import Filters
 from telegram import ParseMode
@@ -13,10 +12,6 @@ from telegram.ext import (Updater,
                           CallbackContext,
                           ConversationHandler)
 from telegram import InlineKeyboardButton as IKB, InlineKeyboardMarkup, ForceReply
-
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-)
 
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
