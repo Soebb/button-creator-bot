@@ -1,4 +1,4 @@
-from dotenv import load_dotenv
+
 from telegram.ext.filters import Filters
 from telegram import ParseMode
 import os
@@ -13,8 +13,8 @@ from telegram.ext import (Updater,
                           ConversationHandler)
 from telegram import InlineKeyboardButton as IKB, InlineKeyboardMarkup, ForceReply
 
-load_dotenv()
-BOT_TOKEN = os.getenv('BOT_TOKEN')
+
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 
 def start(update: Update, context: CallbackContext):
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         preview
         )
     )
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("add", add_button))
+    dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(CommandHandler('add', add_button))
 
     updater.start_polling()
