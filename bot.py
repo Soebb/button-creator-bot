@@ -62,6 +62,7 @@ def add_button(update: Update, context: CallbackContext):
 def preview(update: Update, context: CallbackContext):
     caption = update.message['caption']
     captionn = "'" + caption + "'"
+    chat_id = update.message['chat_id']
     user_d = context.user_data
     buttons = user_d.get('buttons')
     if update.effective_message.text:
@@ -71,14 +72,17 @@ def preview(update: Update, context: CallbackContext):
         else:
             update.message.reply_text('No buttons added yet')
         main_menu(update,context)
-    if update.message['photo'] == []:
-        caption = update.message['caption']
-        captionn = "'" + caption + "'"
-        user_d = context.user_data
-        buttons = user_d.get('buttons')
+    if update.message['audio'] == []:
+        fileID = update.message['audio']['file_id']
+        fileName = update.message['audio']['file_name']
         if buttons:
-            update.message.reply_text(
-                captionn, reply_markup=InlineKeyboardMarkup(buttons))
+            context.bot.sendAudio(
+                chat_id = chat_id,
+                filename = fileName,
+                caption = caption,
+                audio = fileID,
+                reply_markup = InlineKeyboardMarkup(buttons))
+            )
         else:
             update.message.reply_text('No buttons added yet')
         main_menu(update,context)
