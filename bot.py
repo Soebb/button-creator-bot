@@ -45,26 +45,17 @@ def add_button(update: Update, context: CallbackContext):
         user_d['buttons'] = []
     user_d['buttons'].append([IKB(text, url=url)])
     update.message.reply_text('Done')
-    start(update,context)
 
 def preview(update: Update, context: CallbackContext):
     user_d = context.user_data
     buttons = user_d.get('buttons')
-    if update.message['audio'] == []:
-        caption = update.message['caption']
-        chat_id = update.message['chat_id']
-        fileID = update.message['audio']['file_id']
-        fileName = update.message['audio']['file_name']
-        context.bot.sendAudio(
-            chat_id = chat_id,
-            filename = fileName,
-            caption = caption,
-            audio = fileID,
-            reply_markup = InlineKeyboardMarkup(buttons)
-        )
-    else:
-        update.message.reply_text('No buttons added yet')
-    start(update,context)
+    if update.effective_message.text:
+            if not "start" and not "add" in update.message['text']:
+                update.message.reply_text(
+                    'B', reply_markup=InlineKeyboardMarkup(buttons))
+            else:
+                update.message.reply_text('No buttons added yet')
+       
 
 if __name__ == "__main__":
 
