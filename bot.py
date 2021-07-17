@@ -81,7 +81,7 @@ def preview(update: Update, context: CallbackContext):
                 filename = fileName,
                 caption = caption,
                 audio = fileID,
-                reply_markup = InlineKeyboardMarkup(buttons))
+                reply_markup = InlineKeyboardMarkup(buttons)
             )
         else:
             update.message.reply_text('No buttons added yet')
