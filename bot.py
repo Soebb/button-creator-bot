@@ -70,20 +70,23 @@ def preview(update: Update, context: CallbackContext):
         else:
             update.message.reply_text('No buttons added yet')
 
+def main():
+    token = os.environ.get('BOT_TOKEN')
+    updater = Updater(token, use_context=True)
+    dp = updater.dispatcher
+    dp.add_handler(MessageHandler((Filters.audio | Filters.text), preview))
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("add", add_button))
+    updater.start_polling()
+    updater.idle()
+
 
 if __name__ == "__main__":
+    main()
 
     updater = Updater(token=BOT_TOKEN)
     dispatcher = updater.dispatcher
-    dispatcher.add_handler(
-        MessageHandler(
-            (Filters.audio | Filters.text),
-        preview
-        )
-    )
-    dispatcher.add_handler(CommandHandler('start', start))
-    dispatcher.add_handler(CommandHandler('add', add_button))
-
+    
     updater.start_polling()
 
     updater.idle()
