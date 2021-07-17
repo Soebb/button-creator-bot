@@ -41,6 +41,8 @@ def add_button(update: Update, context: CallbackContext):
         return
 
     user_d = context.user_data
+    if not 'buttons' in user_d:
+        user_d['buttons'] = []
     user_d['buttons'].append([IKB(text, url=url)])
     update.message.reply_text('Done')
 
@@ -48,11 +50,11 @@ def preview(update: Update, context: CallbackContext):
     user_d = context.user_data
     buttons = user_d.get('buttons')
     if update.effective_message.text:
-            if not "start" and not "add" in update.message['text']:
-                update.message.reply_text(
-                    'B', reply_markup=InlineKeyboardMarkup(buttons))
-            else:
-                update.message.reply_text('No buttons added yet')
+        if not "start" and not "add" in update.message['text']:
+            update.message.reply_text(
+                'B', reply_markup=InlineKeyboardMarkup(buttons))
+        else:
+            update.message.reply_text('No buttons added yet')
        
 
 if __name__ == "__main__":
