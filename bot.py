@@ -118,7 +118,7 @@ if __name__ == "__main__":
     _handlers['post_hanlder'] = CommandHandler('post', main_menu)
 
     _handlers['add_button_handler'] = CommandHandler('add', add_button)
-    _handlers['preview_handler'] = MessageHandler(Filters.media, preview)
+    _handlers['preview_handler'] = MessageHandler(Filters.audio, preview)
     _handlers['cancel_handler'] = CommandHandler('cancel', cancel)
     _handlers['send_handler'] = CommandHandler('send', send)
 
