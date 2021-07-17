@@ -49,7 +49,6 @@ def add_button(update: Update, context: CallbackContext):
 
 def preview(update: Update, context: CallbackContext):
     caption = update.message['caption']
-    captionn = "'" + caption + "'"
     chat_id = update.message['chat_id']
     user_d = context.user_data
     buttons = user_d.get('buttons')
