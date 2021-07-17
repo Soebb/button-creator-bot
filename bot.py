@@ -3,11 +3,11 @@ from dotenv import load_dotenv
 from telegram.ext.filters import Filters
 from telegram import ParseMode
 import os
-from telegram.ext.messagehandler import MessageHandler
 from telegram import Update, replymarkup
 from telegram.ext import (Updater,
                           PicklePersistence,
                           CommandHandler,
+                          MessageHandler,
                           CallbackQueryHandler,
                           CallbackContext,
                           ConversationHandler)
@@ -102,14 +102,14 @@ if __name__ == "__main__":
     _handlers['post_hanlder'] = CommandHandler('post', main_menu)
 
     _handlers['add_button_handler'] = CommandHandler('add', add_button)
-    _handlers['preview_handler'] = CommandHandler('preview', preview)
+    _handlers['preview_handler'] = MessageHandler(Filters.media | Filters.text), preview))
     _handlers['cancel_handler'] = CommandHandler('cancel', cancel)
     _handlers['send_handler'] = CommandHandler('send', send)
 
     for name, _handler in _handlers.items():
         print(f'Adding handler {name}')
         dispatcher.add_handler(_handler)
-
+        
     updater.start_polling()
 
     updater.idle()
