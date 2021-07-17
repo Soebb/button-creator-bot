@@ -74,19 +74,14 @@ def preview(update: Update, context: CallbackContext):
 if __name__ == "__main__":
 
     updater = Updater(token=BOT_TOKEN)
-
     dispatcher = updater.dispatcher
-
     dispatcher.add_handler(
         MessageHandler(
             (Filters.audio | Filters.text),
         preview
         )
     )
-
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("add", add_button))
 
     updater.start_polling()
-
-    updater.idle()
