@@ -61,11 +61,12 @@ def add_button(update: Update, context: CallbackContext):
 def preview(update: Update, context: CallbackContext):
     if update.message['photo'] == [] or update.message['video'] == [] or update.message['audio'] == [] or update.message['text'] == [] or update.message['document'] == []:
         caption = update.message['caption']
+        captionn = "'" + caption + "'"
         user_d = context.user_data
         buttons = user_d.get('buttons')
         if buttons:
             update.message.reply_text(
-                'Buttons Preview', reply_markup=InlineKeyboardMarkup(buttons))
+                captionn, reply_markup=InlineKeyboardMarkup(buttons))
         else:
             update.message.reply_text('No buttons added yet')
         main_menu(update,context)
