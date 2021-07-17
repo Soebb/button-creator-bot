@@ -79,14 +79,3 @@ def main():
     dp.add_handler(CommandHandler("add", add_button))
     updater.start_polling()
     updater.idle()
-
-
-if __name__ == "__main__":
-    main()
-
-    updater = Updater(token=BOT_TOKEN)
-    dispatcher = updater.dispatcher
-    
-    updater.start_polling()
-
-    updater.idle()
