@@ -1,4 +1,4 @@
-
+import logging
 from telegram.ext.filters import Filters
 from telegram import ParseMode
 import os
@@ -13,8 +13,11 @@ from telegram.ext import (Updater,
                           ConversationHandler)
 from telegram import InlineKeyboardButton as IKB, InlineKeyboardMarkup, ForceReply
 
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+)
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
+logger = logging.getLogger(__name__)
 
 
 def start(update: Update, context: CallbackContext):
@@ -70,12 +73,12 @@ def preview(update: Update, context: CallbackContext):
         else:
             update.message.reply_text('No buttons added yet')
 
-def main():
-    token = os.environ.get('BOT_TOKEN')
-    updater = Updater(token, use_context=True)
-    dp = updater.dispatcher
-    dp.add_handler(MessageHandler((Filters.audio | Filters.text), preview))
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("add", add_button))
-    updater.start_polling()
-    updater.idle()
+
+token = os.environ.get('BOT_TOKEN')
+updater = Updater(token, use_context=True)
+dp = updater.dispatcher
+dp.add_handler(MessageHandler((Filters.audio | Filters.text), preview))
+dp.add_handler(CommandHandler("start", start))
+dp.add_handler(CommandHandler("add", add_button))
+updater.start_polling()
+updater.idle()
