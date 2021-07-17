@@ -41,8 +41,6 @@ def add_button(update: Update, context: CallbackContext):
         return
 
     user_d = context.user_data
-    if not 'buttons' in user_d:
-        user_d['buttons'] = []
     user_d['buttons'].append([IKB(text, url=url)])
     update.message.reply_text('Done')
 
