@@ -14,6 +14,9 @@ from telegram.ext import (Updater,
                           ConversationHandler)
 from telegram import InlineKeyboardButton as IKB, InlineKeyboardMarkup, ForceReply
 
+logging.basicConfig(
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+)
 
 load_dotenv()
 BOT_TOKEN = os.getenv('BOT_TOKEN')
@@ -78,9 +81,6 @@ if __name__ == "__main__":
     updater = Updater(token=BOT_TOKEN)
 
     dispatcher = updater.dispatcher
-
-    logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-                        level=logging.INFO)
 
     dispatcher.add_handler(
         MessageHandler(
