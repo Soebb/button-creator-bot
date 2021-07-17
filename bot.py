@@ -51,8 +51,6 @@ def add_button(update: Update, context: CallbackContext):
 
 
 def preview(update: Update, context: CallbackContext):
-    caption = update.message['caption']
-    chat_id = update.message['chat_id']
     user_d = context.user_data
     buttons = user_d.get('buttons')
     if buttons:
@@ -63,6 +61,8 @@ def preview(update: Update, context: CallbackContext):
             else:
                 update.message.reply_text('No buttons added yet')
         if update.message['audio'] == []:
+            caption = update.message['caption']
+            chat_id = update.message['chat_id']
             fileID = update.message['audio']['file_id']
             fileName = update.message['audio']['file_name']
             context.bot.sendAudio(
